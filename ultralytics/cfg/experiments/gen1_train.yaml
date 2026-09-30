@@ -1,0 +1,39 @@
+model: ultralytics/cfg/models/v8/dpadasnn_gen1_yolov8s.yaml
+resume: false
+pretrained: false
+amp: true
+data: ultralytics/cfg/datasets/GEN1.yaml
+device:
+- 0
+- 1
+batch: 16
+nbs: 64
+save_period: -1
+cuda_visible_devices: 0,1
+epochs: 72
+patience: 20
+workers: 4
+imgsz: 320
+rect: false
+optimizer: AdamW
+cos_lr: true
+project: runs/gen1
+name: train
+exist_ok: false
+seed: 0
+deterministic: true
+spike_balance: 0.1
+event_image_size:
+- 240
+- 304
+event_micro_slice: 6
+event_representation: fused_count_surface
+event_tau: 50000.0
+event_time_reverse: true
+event_column_order:
+- 0
+- 1
+- 3
+- 2
+event_no_letterbox_pad: false
+event_train_shape: null

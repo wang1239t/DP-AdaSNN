@@ -1,0 +1,237 @@
+nc: 2
+scales:
+  n:
+  - 0.33
+  - 0.25
+  - 1024
+  s:
+  - 0.33
+  - 0.5
+  - 1024
+  m:
+  - 0.67
+  - 0.75
+  - 768
+  l:
+  - 1.0
+  - 1.0
+  - 512
+  x:
+  - 1.0
+  - 1.25
+  - 512
+backbone:
+- - -1
+  - 1
+  - DPAdaSNNEmbedding
+  - - 2
+    - 5
+    - 4
+    - nb_steps: 6
+      vreset: 0
+      thresh: 1
+      spike_fn: Atan
+    - spike_attach: false
+      use_neg_spike: true
+      use_depthwise_conv: true
+      use_physics_loss: true
+      use_log_compress: false
+      use_time_surface: true
+      use_adaptive_thresh: true
+      neg_thresh_init: 2.0
+      depth: 2
+      log_alpha: 1.0
+      readout: avg
+      gain_k: 1.0
+      v_min: 0.5
+      v_max: 3.0
+      not_rpd: false
+      physics_shadow_weight: 1.0
+      physics_focus_weight: 1.0
+      output_clamp: 24.0
+      input_count_cap: 512.0
+- - -1
+  - 1
+  - MS_GetT
+  - - 2
+    - 4
+- - -1
+  - 1
+  - MS_DownSampling
+  - - 128
+    - 7
+    - 4
+    - 2
+    - true
+- - -1
+  - 3
+  - MS_AllConvBlock
+  - - 4
+    - 7
+- - -1
+  - 1
+  - MS_DownSampling
+  - - 256
+    - 3
+    - 2
+    - 1
+    - false
+- - -1
+  - 6
+  - MS_AllConvBlock
+  - - 4
+    - 7
+- - -1
+  - 1
+  - MS_DownSampling
+  - - 512
+    - 3
+    - 2
+    - 1
+    - false
+- - -1
+  - 9
+  - MS_ConvBlock
+  - - 3
+    - 7
+- - -1
+  - 1
+  - MS_DownSampling
+  - - 1024
+    - 3
+    - 2
+    - 1
+    - false
+- - -1
+  - 1
+  - MS_ConvBlock
+  - - 2
+    - 7
+- - -1
+  - 1
+  - SpikeSPPF
+  - - 1024
+    - 5
+head:
+- - -1
+  - 1
+  - MS_StandardConv
+  - - 512
+    - 1
+    - 1
+- - -1
+  - 1
+  - nn.Upsample
+  - - None
+    - (1,2,2)
+    - nearest
+- - -1
+  - 1
+  - MS_ConvBlock
+  - - 3
+    - 7
+- - - -1
+    - 7
+  - 1
+  - Concat
+  - - 2
+- - -1
+  - 1
+  - MS_StandardConv
+  - - 256
+    - 1
+    - 1
+- - -1
+  - 1
+  - nn.Upsample
+  - - None
+    - (1,2,2)
+    - nearest
+- - -1
+  - 1
+  - MS_AllConvBlock
+  - - 4
+    - 7
+- - - -1
+    - 5
+  - 1
+  - Concat
+  - - 2
+- - -1
+  - 1
+  - MS_StandardConv
+  - - 256
+    - 1
+    - 1
+- - -1
+  - 1
+  - MS_AllConvBlock
+  - - 4
+    - 7
+- - -1
+  - 1
+  - MS_StandardConv
+  - - 256
+    - 3
+    - 2
+- - - -1
+    - 15
+  - 1
+  - Concat
+  - - 2
+- - -1
+  - 1
+  - MS_ConvBlock
+  - - 3
+    - 7
+- - -1
+  - 1
+  - MS_StandardConv
+  - - 512
+    - 3
+    - 2
+- - - -1
+    - 11
+  - 1
+  - Concat
+  - - 2
+- - -1
+  - 1
+  - MS_ConvBlock
+  - - 1
+    - 7
+- - 20
+  - 1
+  - MS_StandardConv
+  - - 128
+    - 1
+    - 1
+- - -1
+  - 1
+  - nn.Upsample
+  - - None
+    - (1,2,2)
+    - nearest
+- - - -1
+    - 3
+  - 1
+  - Concat
+  - - 2
+- - -1
+  - 1
+  - MS_StandardConv
+  - - 128
+    - 1
+    - 1
+- - -1
+  - 1
+  - MS_AllConvBlock
+  - - 2
+    - 7
+- - - 31
+    - 20
+    - 23
+    - 26
+  - 1
+  - SpikeDetect
+  - - nc

@@ -1,0 +1,7 @@
+path: data/gen1
+train: train/events
+val: val/events
+test: test/events
+names:
+  0: car
+  1: pedestrian

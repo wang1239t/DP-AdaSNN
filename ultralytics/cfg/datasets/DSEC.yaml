@@ -1,0 +1,12 @@
+path: data/dsec
+train: train/events
+val: val/events
+test: test/events
+names:
+  0: pedestrian
+  1: rider
+  2: car
+  3: bus
+  4: truck
+  5: bicycle
+  6: motorcycle

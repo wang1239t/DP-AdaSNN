@@ -1,0 +1,39 @@
+model: ultralytics/cfg/models/v8/dpadasnn_dsec_yolov8s.yaml
+resume: false
+pretrained: false
+amp: true
+data: ultralytics/cfg/datasets/DSEC.yaml
+device:
+- 0
+- 1
+batch: 8
+nbs: 64
+save_period: 1
+cuda_visible_devices: 0,1
+epochs: 48
+patience: 0
+imgsz: 640
+rect: true
+project: runs/dsec
+name: train
+exist_ok: false
+seed: 0
+deterministic: true
+spike_balance: 0.1
+event_image_size:
+- 480
+- 640
+event_micro_slice: 4
+event_representation: fused_count_surface
+event_tau: 18000.0
+event_time_reverse: true
+event_column_order:
+- 0
+- 1
+- 3
+- 2
+event_no_letterbox_pad: true
+event_train_shape:
+- 480
+- 640
+event_train_shuffle: true
