@@ -59,21 +59,3 @@ Training templates preserve the two-GPU batch configurations (GEN1 16, DSEC 8). 
 | AdaVth / original TSD | On / On | On / On |
 
 The frontend, original TSD formulas and configurations were extracted from frozen research snapshots. Loss gains, temporal reversal and event resizing remain part of the configuration. No benchmark claims are made from synthetic checks.
-
-## Release boundary
-
-Included: the core method, required detection framework, GEN1/DSEC event representation and loading, six entrypoint configuration templates, standard losses and P/R/mAP evaluation.
-
-Excluded: internal-state/firing-rate hooks, physics and energy reports, efficiency profilers, audit capture, frontend feature visualizations, external logging callbacks, research variants, other datasets, experiment management, trained weights and historical results.
-
-The configuration and class names needed to use the core remain available. Private monitoring APIs and diagnostic recording arguments are not part of this release. Historical full-object research checkpoints that contain removed classes are not promised to load; train within this release or transfer compatible state dictionaries explicitly.
-
-## Small regression checks
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-Windows entrypoints retain the original process-level OpenMP compatibility setting; this does not modify the installed environment. GPU warmup uses five-dimensional event tensors, and AMP checks use the local model with small synthetic inputs.
-
-Acceptance includes CPU synthetic train/test/detect, exact comparisons with frozen sources, and single-GPU inference/AMP interfaces at 64×96. CUDA training, multi-GPU training and full real-dataset results remain unverified.
