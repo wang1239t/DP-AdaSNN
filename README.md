@@ -57,5 +57,3 @@ Training templates preserve the two-GPU batch configurations (GEN1 16, DSEC 8). 
 | Reset / output clamp | 0 / 24 | 0 / 24 |
 | SAT / log compression | Off / Off | Off / Off |
 | AdaVth / original TSD | On / On | On / On |
-
-The frontend, original TSD formulas and configurations were extracted from frozen research snapshots. Loss gains, temporal reversal and event resizing remain part of the configuration. No benchmark claims are made from synthetic checks.
